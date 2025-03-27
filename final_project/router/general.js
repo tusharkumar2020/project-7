@@ -11,15 +11,19 @@ public_users.post("/register", (req,res) => {
 });
 
 // Task 1
-
 public_users.get('/',function (req, res) {
   return res.send(JSON.stringify(books, null, 4));
 });
 
-// Get book details based on ISBN
+// Task 2
 public_users.get('/isbn/:isbn',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  const getIsbn = req.params.isbn;
+  const book = books[getIsbn];
+  if (book) {
+    return res.json(book);
+  } else {
+    res.status(404).json({ message: "Book not found" });
+  }
  });
   
 // Get book details based on author
