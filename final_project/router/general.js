@@ -17,10 +17,10 @@ public_users.get('/',function (req, res) {
 
 // Task 2
 public_users.get('/isbn/:isbn',function (req, res) {
-  const getIsbn = req.params.isbn;
-  const book = books[getIsbn];
-  if (book) {
-    return res.json(book);
+  const isbn = req.params.isbn;
+  if (books.hasOwnProperty(isbn)) {
+    const book = books[isbn];
+    res.send(book);
   } else {
     res.status(404).json({ message: "Book not found" });
   }
@@ -46,11 +46,9 @@ public_users.get('/author/:author',function (req, res) {
 
 // Task 4
 public_users.get('/title/:title',function (req, res) {
-
   const getTitle = req.params.title;
   const bookKeys = Object.keys(books);
   const matchingBooks = [];
-
   bookKeys.forEach (key => {
     if (books[key].title === getTitle) {
       matchingBooks.push(books[key]);
@@ -59,15 +57,19 @@ public_users.get('/title/:title',function (req, res) {
   if (matchingBooks.length > 0) {
     res.send(matchingBooks);
   } else {
-    res.status(404).send("No books found by that author.");
+    res.status(404).send("No books found by that title.");
   }
-
 });
 
-//  Get book review
+//Task 5
 public_users.get('/review/:isbn',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  const isbn = req.params.isbn;
+  if (books.hasOwnProperty(isbn)) {
+    const book = books[isbn];
+    res.send(book.reviews);
+  } else {
+    res.status(404).send("No Review found for mentioned ISBN.");
+  }
 });
 
 module.exports.general = public_users;
