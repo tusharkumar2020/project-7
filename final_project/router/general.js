@@ -107,4 +107,13 @@ public_users.get('/async/author/:author', async function (req, res) {
   return res.json(getBooksData);
 });
 
+// Task 13
+
+public_users.get('/async/title/:title', async function (req, res) {
+  const getTitle = req.params.title;
+  const getBooks = await axios.get("http://localhost:5000/title/" + getTitle);
+  const getBooksData = getBooks.data;
+  return res.json(getBooksData);
+});
+
 module.exports.general = public_users;
