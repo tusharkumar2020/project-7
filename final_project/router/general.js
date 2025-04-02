@@ -3,6 +3,7 @@ let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
+const axios = require('axios');
 
 //Task 6
 public_users.post("/register", (req,res) => {
@@ -78,6 +79,32 @@ public_users.get('/review/:isbn',function (req, res) {
   } else {
     res.status(404).send("No Review found for mentioned ISBN.");
   }
+});
+
+// Task 10
+
+public_users.get('/async', async function (req, res) {
+  const getBooks = await axios.get("http://localhost:5000/");
+  const getBooksData = getBooks.data;
+  return res.json(getBooksData);
+});
+
+// Task 11
+
+public_users.get('/async/isbn/:isbn', async function (req, res) {
+  const isbn = req.params.isbn;
+  const getBook = await axios.get("http://localhost:5000/isbn/" + isbn);
+  const getBookData = getBook.data;
+  return res.json(getBookData);
+});
+
+// Task 12
+
+public_users.get('/async/author/:author', async function (req, res) {
+  const getAuthor = req.params.author;
+  const getBooks = await axios.get("http://localhost:5000/author/" + getAuthor);
+  const getBooksData = getBooks.data;
+  return res.json(getBooksData);
 });
 
 module.exports.general = public_users;

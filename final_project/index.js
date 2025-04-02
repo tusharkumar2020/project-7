@@ -8,9 +8,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use(session({secret:"fingerprint_customer",resave: true, saveUninitialized: true})); // Session middleware first
-// app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
-
+app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
 app.use("/customer/auth/*", function auth(req,res,next){
 
     if (req.session.authorization) {
